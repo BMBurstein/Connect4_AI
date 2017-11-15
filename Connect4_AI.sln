@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Runner", "Runner\Runner.pyproj", "{44259FCD-6D2B-47FD-B558-1292A747417B}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "RandomPlayer", "RandomPlayer\RandomPlayer.pyproj", "{61167B32-741E-4F33-98CB-15AF608DD3ED}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Learning1Player", "Learning1Player\Learning1Player.pyproj", "{2CF13340-76D5-4F7D-A061-F30C7C19BA19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,10 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{44259FCD-6D2B-47FD-B558-1292A747417B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44259FCD-6D2B-47FD-B558-1292A747417B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61167B32-741E-4F33-98CB-15AF608DD3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61167B32-741E-4F33-98CB-15AF608DD3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF13340-76D5-4F7D-A061-F30C7C19BA19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF13340-76D5-4F7D-A061-F30C7C19BA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

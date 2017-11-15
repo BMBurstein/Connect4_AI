@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>44259fcd-6d2b-47fd-b558-1292a747417b</ProjectGuid>
+    <ProjectGuid>2cf13340-76d5-4f7d-a061-f30c7c19ba19</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Runner.py</StartupFile>
+    <StartupFile>Learning1Player.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Runner</Name>
-    <RootNamespace>Runner</RootNamespace>
+    <Name>Learning1Player</Name>
+    <RootNamespace>Learning1Player</RootNamespace>
     <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -22,7 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Runner.py" />
+    <Compile Include="Learning1Player.py" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="..\env\">

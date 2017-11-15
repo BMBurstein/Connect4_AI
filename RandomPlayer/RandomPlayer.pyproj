@@ -2,15 +2,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>44259fcd-6d2b-47fd-b558-1292a747417b</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
-    <StartupFile>Runner.py</StartupFile>
+    <ProjectGuid>61167b32-741e-4f33-98cb-15af608dd3ed</ProjectGuid>
+    <ProjectHome>
+    </ProjectHome>
+    <StartupFile>RandomPlayer.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Runner</Name>
-    <RootNamespace>Runner</RootNamespace>
+    <Name>RandomPlayer</Name>
+    <RootNamespace>RandomPlayer</RootNamespace>
     <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -22,7 +23,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Runner.py" />
+    <Compile Include="RandomPlayer.py" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="..\env\">
