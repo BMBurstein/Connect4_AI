@@ -110,11 +110,47 @@ class Player:
         self.game.play(move)
 
     def get_move(self):
+        move = None
+        return move
+
+class RandomPlayer(Player):
+    def get_move(self):
         move = random.randint(0,6)
         while self.game.board[move][5] is not None:
             move = random.randint(0,6)
         self.game.play(move)
         return move
+
+class RRobinPlayer(Player):
+    def __init__(self):
+        self.counter = 0
+
+    def reset(self, player):
+        self.counter = 0
+        return super().reset(player)
+
+    def get_move(self):
+        move = (self.counter + 1) % 7
+        while self.game.board[move][5] is not None:
+            move += 1
+            move %= 7
+        self.game.play(move)
+        self.counter = move
+        return move
+
+class InOrderPlayer(Player):
+    def __init__(self):
+        self.move = 0
+
+    def reset(self, player):
+        self.move = 0
+        return super().reset(player)
+
+    def get_move(self):
+        while self.game.board[self.move][5] is not None:
+            self.move += 1
+        self.game.play(self.move)
+        return self.move
 
 class SmartPlayer(Player):
     def __init__(self):
@@ -123,22 +159,37 @@ class SmartPlayer(Player):
         self.game = Game()
 
     def reset(self, player):
-        if self.game.state == Game.WON and self.game.player == self.player:
-            for board, move in self.hist:
-                self.mem[board].remove(move)
+        if self.game.state == Game.WON:
+            if self.game.player != self.player:
+                for board, move in self.hist:
+                    self.mem[board].remove(move)
+            else:
+                for board, move in self.hist:
+                    self.mem[board] += [move] * 2
         self.hist = []
         return super().reset(player)
 
     def get_move(self):
         board = tuple(x for l in self.game.board for x in l)
+        rev = False
         if board not in self.mem:
-            board = tuple(x for l in reversed(self.game.board) for x in l)
-            if board not in self.mem:
+            board_rev = tuple(x for l in reversed(self.game.board) for x in l)
+            if board_rev in self.mem:
+                board = board_rev
+                rev = True
+            else:
                 self.mem[board] = [x for x in range(7) if self.game.board[x][5] is None]
+                if len(self.hist) == 0:
+                    self.mem[board] *= 2
+                rev = False
         choices = self.mem[board]
         if choices:
             move = random.choice(self.mem[board])
             self.hist.append((board, move))
+            if rev:
+                move = 6 - move
+        elif len(self.hist) == 0:
+            move = 3
         else:
             move = None
         self.game.play(move)
@@ -167,9 +218,9 @@ def play_game(p1, p2):
 
 if __name__ == "__main__":
     stats = [0, 0, 0]
-    p1 = Player()
+    p1 = RandomPlayer()
     p2 = SmartPlayer()
-    for i in range(1000):
+    for i in range(10000):
         res = play_game(p1, p2)
         stats[res] += 1
         print('\r' + str(i) + ': ' + str(stats), end='')
