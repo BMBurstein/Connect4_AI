@@ -1,4 +1,5 @@
 import itertools
+import math
 import random
 
 class Game:
@@ -11,10 +12,12 @@ class Game:
         self.board = [[None] * 6 for _ in range(7)]
         self.player = 1
         self.state = self.ONGOING
+        self.hist = []
 
     def play(self, col):
         if self.state != self.ONGOING:
             return self.ERROR
+        self.hist.append(col)
         if col is None:
             self.player = 3 - self.player
             self.state = self.WON
@@ -81,6 +84,20 @@ class Game:
 
         self.player = 3 - self.player
         return self.state
+
+    def undo(self):
+        if self.hist:
+            col = self.hist.pop()
+            if col is None:
+                self.player = 3 - self.player
+            elif self.state != self.ERROR:
+                for row in range(5,-1,-1):
+                    if self.board[col][row] is not None:
+                        break
+                self.board[col][row] = None
+                if self.state == self.ONGOING:
+                    self.player = 3 - self.player
+            self.state = self.ONGOING
 
     def __repr__(self):
         if self.state == self.WON:
@@ -152,6 +169,46 @@ class InOrderPlayer(Player):
         self.game.play(self.move)
         return self.move
 
+class LookaheadPlayer(Player):
+    def __init__(self, depth):
+        self.depth = depth
+
+    def get_move(self):
+        moves = []
+        for i in range(7):
+            moves.append((self.test(i, self.depth-1), i))
+        best = max(moves)[0]
+        moves = [x[1] for x in moves if math.isclose(x[0], best)]
+        move = random.choice(moves)
+        self.game.play(move)
+        return move
+
+    def test(self, col, depth):
+        ret = -1
+        res = self.game.play(col)
+        if res == Game.WON:
+            if self.game.player == self.player:
+                ret = 1
+            else:
+                ret = 0
+        elif res == Game.TIE:
+            ret = 0.5
+        elif res == Game.ONGOING:
+            if depth > 0:
+                ret = 0
+                div = 7
+                for i in range(7):
+                    res = self.test(i, depth-1)
+                    if res >= 0:
+                        ret += res
+                    else:
+                        div -= 1
+                ret /= div
+            else:
+                ret = 0.5
+        self.game.undo()
+        return ret
+
 class SmartPlayer(Player):
     def __init__(self):
         self.mem = {}
@@ -204,24 +261,24 @@ def play_game(p1, p2):
     while game:
         move = player.get_move()
         game.play(move)
-        #print(move)
-        #print(game)
         player = p()
         player.op_move(move)
-    #print(game)
     if game.state == game.WON:
         return game.player
-    else:
+    elif game.state == game.ERROR:
         print(game)
-        return 0
+        return -1
+    return 0
 
 
 if __name__ == "__main__":
     stats = [0, 0, 0]
-    p1 = RandomPlayer()
-    p2 = SmartPlayer()
-    for i in range(10000):
+    p1 = LookaheadPlayer(1)
+    p2 = LookaheadPlayer(2)
+    for i in range(1000):
         res = play_game(p1, p2)
+        if res < 0:
+            break
         stats[res] += 1
         print('\r' + str(i) + ': ' + str(stats), end='')
     print()
